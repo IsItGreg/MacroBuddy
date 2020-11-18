@@ -118,3 +118,7 @@ main {
 .card-img {
   margin: 3px;
 }
+
+.download-button {
+  margin: 10px 0 25px 0
+}
