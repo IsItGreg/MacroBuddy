@@ -315,7 +315,7 @@ def record_toggle():
 canvas.configure(background = 'gray')
 
 
-# This is the frame all the way to the right where the stop and consolidate logs buttons are 
+# This is the frame all the way to the right where the open script button is 
 frame = tk.Frame(root, bg='#dbf6e9',bd=5)
 
 frame.place(relx=0.9,rely=0.1,relwidth=0.4, relheight=0.6,anchor = 'n')
