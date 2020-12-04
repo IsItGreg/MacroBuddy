@@ -5,6 +5,7 @@ from tkinter import filedialog, Text
 import subprocess
 from tkinter.messagebox import showwarning
 from tkinter import font
+import re
 from code import InteractiveConsole
 from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
@@ -273,6 +274,9 @@ frame2.place(relx=0.1,rely=0.1,relwidth=0.6,relheight=0.8,anchor='nw')
 
 
 
+
+
+
 #this is where we embed the terminal into the GUI 
 
 wid = frame2.winfo_id()
@@ -294,14 +298,9 @@ except FileNotFoundError:
 
 
 FrameMenu = tk.Menu(root)
+FrameMenu.add_command(label="Open Script", command = OpenScript)
+FrameMenu.add_command(label="Record", command = record_toggle)
+FrameMenu.add_command(label="Run")
 root.config(menu = FrameMenu)
-file_menu = tk.Menu(FrameMenu,tearoff=False)
-FrameMenu.add_cascade(label="File", menu = file_menu)
-file_menu.add_command(label="Open Script", command = OpenScript)
-file_menu.add_command(label="Record", command = record_toggle)
-file_menu.add_command(label="Run")
     
 root.mainloop()
-
-
-
