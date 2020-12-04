@@ -1,115 +1,32 @@
 #Version 3 
-import sys
-import os
+
 import tkinter as tk
 from tkinter import filedialog, Text
-import threading
-import pynput
-from pynput.keyboard import Key, Listener, Controller
 import subprocess
 from tkinter.messagebox import showwarning
 from tkinter import font
-import re
 from code import InteractiveConsole
 from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
-
-keyboard = Controller()
-count = 0 
-keys = []
+#import logger
 
 HEIGHT = 1000
 WIDTH = 1000
-buttons = []
 
 global open_status
 open_status = False
-
+filename = None
 
 root = tk.Tk()
 root.title("Macro Buddy")
         
 canvas = tk.Canvas(root, height=HEIGHT, width = WIDTH)
 canvas.pack(fill = 'both', expand=True)
-
-def on_press(key):
     
-    global keys, count
-    
-    keys.append(key)
-    
-    count += 1
-    
-    print("{0} pressed".format(key))
-    
-    if count >= 1:
-        
-        count = 0
-        
-        write_file(keys)
-        
-        keys = []
-
-def write_file(keys):
-    
-    with open("log.txt", 'a') as f:
-        
-        for key in keys:
-            
-            k = str(key).replace("'", "")
-            
-            if k.find("enter") > 0:
-                
-                f.write('\n')
-                
-            elif k.find("space") > 0:
-                
-                f.write(" ")
-                
-            elif k.find("Key") == -1:
-                
-                f.write(k)
-    
-
-    
-def on_release(key):
-    
-    if key == Key.esc:
-        
-        return False
-        
-def keylogger():
-    
-    with Listener(on_press =on_press,on_release=on_release) as listener: 
-        
-        def stopRec():
-            
-            print("hello")
-            
-            listener.stop()
-            
-        listener.join()
-        
-        return stopRec
-        
-
-def run():
-    
-    threading.Thread(target=keylogger).start()
-    
-
-
-def record():
-    
-    run()
-
-
-    
- 
 def OpenScript():
     
     #we make new frames to add new buttons to the side panel whenever the editor is opened 
-    
+    global filename
     optionFrame = tk.Frame(root, bg='#dbf6e9',bd=5)
 
     optionFrame.place(relx=0.9,rely=0.1,relwidth=0.4, relheight=0.6,anchor = 'n')
@@ -148,7 +65,7 @@ def OpenScript():
     def open_file():
         
         notepad.delete("1.0", "end")
-        
+        global filename
         filename = filedialog.askopenfilename(initialdir="~", title= "Select File",
                                             filetypes=(("shell file","*.sh"), ("all files", "."))) 
         
@@ -177,6 +94,7 @@ def OpenScript():
 
     # this add functionality to the save as button on the text editor    
     def save_as():
+        global filename
         filename = filedialog.asksaveasfilename(defaultextension=" .*", initialdir="~", title ="Save File",filetypes=(("shell file","*.sh"), ("all files", ".")))
         
         if filename:
@@ -201,6 +119,7 @@ def OpenScript():
 
     # this add functionality to the save button on the text editor
     def save_file():
+        global filename
         global open_status
         
         if open_status:
@@ -262,9 +181,9 @@ def OpenScript():
     status_bar= tk.Label(root,text="ready        ", anchor='e')
     status_bar.pack(fill="x")
     def remove():
-        emptyMenu = tk.Menu(root)
+        emptyMenu = FrameMenu
         root.config(menu=emptyMenu)
-        root.title(text = "Macro Buddy")
+        
     if filename:
             
             global open_status
@@ -287,35 +206,36 @@ def OpenScript():
     
     filename.close()
     
-            
-def stop():
-    
-    return keylogger
 
-stop = False
+
+
+toggle = False
 
 #this function toggles the record new macro to stop recording 
 
 def record_toggle():
+    global toggle
     
-    global stop
     
-    if stop:
+        
+    if toggle:
         
         button5.configure(text = "Record New Macro")
         
-        stop = False
-    
+        toggle = False
+            
     else: 
+               
+        button5.configure(text = "Stop Recording")        
         
-        button5.configure(text = "Stop Recording")
+        toggle = True
         
-        stop = True
-        
+    
+               
 canvas.configure(background = 'gray')
 
 
-# This is the frame all the way to the right where the open script button is 
+# This is the frame all the way to the right where the openscript button is 
 frame = tk.Frame(root, bg='#dbf6e9',bd=5)
 
 frame.place(relx=0.9,rely=0.1,relwidth=0.4, relheight=0.6,anchor = 'n')
@@ -324,15 +244,13 @@ button1 = tk.Button(frame, text="Open Script",font=30,bg='#9ddfd3', command= Ope
 
 button1.place(relx = 0.37, relwidth=0.70,relheight=0.1, anchor = 'n')
 
-#button3 = tk.Button(frame, text="Open Terminal", font=30,bg='#9ddfd3')
 
-#button3.place(relx=0.37,rely=0.4,relwidth=0.7,relheight=0.1, anchor = 'n')
 
 #---------------------------------------------------------------------------------------------------------
 
 # This is the frame for the lower right start recording
 
-frame3 = tk.Frame(root, bg='#dbf6e9',bd=5)
+frame3 = tk.Frame(root, bg='#9ddfd3',bd=5)
 
 frame3.place(relx = 0.9, rely = 0.75,relwidth=0.4,relheight=0.15, anchor = 'n')
 
@@ -347,19 +265,17 @@ button5.place(relx = 0.37,relwidth=0.8,relheight=0.90,anchor='n')
 #-----------------------------------------------------------------------------------------------
 
 # This is the frame for the main big window in the center where the terminal will go 
-frame2 = tk.Frame(root, bg='#dbf6e9',bd=5)
+frame2 = tk.Frame(root, bg='#9ddfd3',bd=5)
 
 frame2.place(relx=0.1,rely=0.1,relwidth=0.6,relheight=0.8,anchor='nw')
 
 #this is the gray label inside frame2
 
-label2 = tk.Label(frame2)
 
-label2.place(relwidth=1, relheight=1)
 
 #this is where we embed the terminal into the GUI 
 
-wid = label2.winfo_id()
+wid = frame2.winfo_id()
     
 try:
     
@@ -368,6 +284,7 @@ try:
         ["xterm","-into", str(wid), "-geometry", "87x60"],
         
         stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    
 
 #throw an exception if xterm is not installed
 
@@ -375,5 +292,16 @@ except FileNotFoundError:
     
     showwarning("Error", "xterm is not installed")
 
+
+FrameMenu = tk.Menu(root)
+root.config(menu = FrameMenu)
+file_menu = tk.Menu(FrameMenu,tearoff=False)
+FrameMenu.add_cascade(label="File", menu = file_menu)
+file_menu.add_command(label="Open Script", command = OpenScript)
+file_menu.add_command(label="Record", command = record_toggle)
+file_menu.add_command(label="Run")
     
 root.mainloop()
+
+
+
