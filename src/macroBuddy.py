@@ -1,7 +1,7 @@
 #Version 3 
 
 import tkinter as tk
-from tkinter import filedialog, Text
+from tkinter import filedialog, Text,  messagebox
 import subprocess
 from tkinter.messagebox import showwarning
 from tkinter import font
@@ -26,23 +26,19 @@ canvas.pack(fill = 'both', expand=True)
     
 def OpenScript():
     
-    #we make new frames to add new buttons to the side panel whenever the editor is opened 
     global filename
-    optionFrame = tk.Frame(root, bg='#dbf6e9',bd=5)
 
-    optionFrame.place(relx=0.9,rely=0.1,relwidth=0.4, relheight=0.6,anchor = 'n')
+    #we make new frames to add new buttons to the side panel whenever the editor is opened 
     
-    runButton=tk.Button(optionFrame, text="Run",font=30,bg='#9ddfd3')
+    optionFrame = tk.Frame(root, bg='#383b3d',bd=5)
 
-    runButton.place(relx=0.37,rely=0.2,relwidth=0.7,relheight=0.1, anchor = 'n')
+    runButton=tk.Button(optionFrame, text="Run",font=30,bg='#007ACC',fg ="white")
+
+    exitButton5 = tk.Button(optionFrame, text="Exit to Terminal", font=30, bg='#68217A',fg ="white", activebackground = "#68217A", 
+    command= lambda:[notepad.pack_forget(),text_scroll.pack_forget(),status_bar.pack_forget(),
+    frame4.place_forget(),runButton.place_forget(),optionFrame.place_forget(),exitButton5.place_forget(),exitFrame.place_forget(),remove()])
+
     
-    exitFrame = tk.Frame(root, bg='#dbf6e9', bd=5)
-    
-    exitFrame.place(relx = 0.9, rely = 0.75,relwidth=0.4,relheight=0.15, anchor = 'n')
-
-    exitButton5 = tk.Button(exitFrame, text="Exit to Terminal", font=30, bg='#9ddfd3', command= lambda:[notepad.pack_forget(),text_scroll.pack_forget(),frame4.place_forget(),runButton.place_forget(),optionFrame.place_forget(),exitButton5.place_forget(),exitFrame.place_forget(),remove()])
-
-    exitButton5.place(relx = 0.37,relwidth=0.8,relheight=0.90,anchor='n')
     
     
     #open new file
@@ -138,27 +134,33 @@ def OpenScript():
         else:
             
             save_as()
-            
+
+    
+    
+    optionFrame.place(relx=0.75,rely=0,relwidth=0.5, relheight=1,anchor = 'n')
+    runButton.place(relx=0.7,rely=0.02,width=250,height=60, anchor = 'n')
+    exitButton5.place(relx = 0.7, rely =0.75, width=250, height=60,anchor='n')
+
     # we make a new frame4 on top of frame3 to place the text editor on frame4
-    frame4 = tk.Frame(root, bg='#dbf6e9',bd=5)
+    frame4 = tk.Frame(root, bg='#383b3d',bd=10)
     text_scroll = tk.Scrollbar(frame4)
 
     # text_scroll = tk.Scrollbar(frame2)
-    text_scroll.pack(side ="right", fill = "y")
-    frame4.place(relx=0.1,rely=0.1,relwidth=0.6,relheight=0.8,anchor='nw')
+    text_scroll.pack(side ="left", fill = "y")
+    frame4.place(relx=0,rely=0,relwidth=0.7,relheight=.98,anchor='nw')
 
     #this is the actual text editor 
-    notepad = tk.Text(frame4,font =("DejaVu Sans Mono",10), selectbackground="LightCyan2",selectforeground="black",undo=True, yscrollcommand=text_scroll.set)
-    notepad.pack(side = "right" ,fill="y")
+    notepad = tk.Text(frame4,font =("DejaVu Sans Mono",12), bg = "#1E1E1E",fg ="white",selectbackground="#C9DEF5",selectforeground="white",undo=True, yscrollcommand=text_scroll.set)
+    notepad.pack(side = "left" , fill="y")
 
 
     text_scroll.config(command=notepad.yview)
 
     #this is the menu for the text editor 
-    notepad_menu = tk.Menu(root)
+    notepad_menu = tk.Menu(root,bg ="#252526",fg ="white",relief ="flat")
     root.config(menu = notepad_menu)
 
-    file_menu = tk.Menu(notepad_menu,tearoff=False)
+    file_menu = tk.Menu(notepad_menu,bg ="#252526",fg ="white",relief ="flat",tearoff=False)
     notepad_menu.add_cascade(label="File", menu = file_menu)
     file_menu.add_command(label="New", command = new_file)
     file_menu.add_command(label="Open", command=open_file)
@@ -170,7 +172,7 @@ def OpenScript():
     # openScript function when the editor is opened so it removes those frames once exit is clicked 
     file_menu.add_command(label="Exit", command= lambda:[notepad.pack_forget(),text_scroll.pack_forget(),frame4.place_forget(),runButton.place_forget(),optionFrame.place_forget(),exitButton5.place_forget(),exitFrame.place_forget(),remove()])
 
-    edit_menu = tk.Menu(notepad_menu,tearoff= False)
+    edit_menu = tk.Menu(notepad_menu,bg ="#252526",fg ="white",relief ="flat",tearoff= False)
     notepad_menu.add_cascade(label="Edit", menu=edit_menu)
     edit_menu.add_command(label="Cut")
     edit_menu.add_command(label="Copy")
@@ -179,7 +181,7 @@ def OpenScript():
     edit_menu.add_command(label="Redo")
 
 
-    status_bar= tk.Label(root,text="ready        ", anchor='e')
+    status_bar= tk.Label(root,text="ready        ", bg ="#252526",fg ="white",relief ="flat",anchor='e')
     status_bar.pack(fill="x")
     def remove():
         emptyMenu = FrameMenu
@@ -221,74 +223,70 @@ def record_toggle():
         
     if toggle:
         
-        button5.configure(text = "Record New Macro")
+        
+        button5.configure(text = "Record New Macro", bg='#68217A',activebackground = "#68217A")
         
         toggle = False
             
     else: 
                
-        button5.configure(text = "Stop Recording")        
+        button5.configure(text = "Stop Recording", bg='#F35F25',activebackground = "#F35F25")      
         
         toggle = True
         
     
                
-canvas.configure(background = 'gray')
+canvas.configure(bg = '#383b3d')
 
 
-# This is the frame all the way to the right where the openscript button is 
-frame = tk.Frame(root, bg='#dbf6e9',bd=5)
+# This is the frame all the way to the right where the open script button is 
+frame = tk.Frame(root, bg='#383b3d',bd=5)
 
-frame.place(relx=0.9,rely=0.1,relwidth=0.4, relheight=0.6,anchor = 'n')
+frame.place(relx=0.75,rely=0,relwidth=0.5, relheight=1,anchor = 'n')
 
-button1 = tk.Button(frame, text="Open Script",font=30,bg='#9ddfd3', command= OpenScript)
+button1 = tk.Button(frame, text="Open Script",font=30,fg = "white",bg='#007ACC', activebackground = "#007ACC", command= OpenScript,relief = "flat",borderwidth=0)
 
-button1.place(relx = 0.37, relwidth=0.70,relheight=0.1, anchor = 'n')
-
-
+button1.place(relx = 0.7, rely = .02, width=250, height=60, anchor = 'n')
 
 #---------------------------------------------------------------------------------------------------------
 
 # This is the frame for the lower right start recording
 
-frame3 = tk.Frame(root, bg='#9ddfd3',bd=5)
+#frame3 = tk.Frame(root, bg='#1D5A9F',bd=10)
 
-frame3.place(relx = 0.9, rely = 0.75,relwidth=0.4,relheight=0.15, anchor = 'n')
+#frame3.place(relx = 0.9, rely = 0.6,relwidth=0.4,relheight=0.3, anchor = 'n')
 
 #the button for the frame3 on the lower right
 
-button5 = tk.Button(frame3, text="Record New Macro", font=30, bg='#9ddfd3', command = record_toggle)
+button5 = tk.Button(frame, text="Record New Macro", font=30,fg = "white", bg='#68217A', activebackground = "#68217A", 
+command = record_toggle,relief = "flat")
 
-button5.place(relx = 0.37,relwidth=0.8,relheight=0.90,anchor='n')
-
-
+button5.place(relx = 0.7, rely =0.75, width=250, height=60,anchor='n')
 
 #-----------------------------------------------------------------------------------------------
 
 # This is the frame for the main big window in the center where the terminal will go 
-frame2 = tk.Frame(root, bg='#9ddfd3',bd=5)
+frame2 = tk.Frame(root, bg='#383b3d',bd=10)
 
-frame2.place(relx=0.1,rely=0.1,relwidth=0.6,relheight=0.8,anchor='nw')
+frame2.place(relx=0,rely=0,relwidth=0.7,relheight=1,anchor='nw')
 
 #this is the gray label inside frame2
 
+label2 = tk.Label(frame2)
 
-
-
-
+label2.place(relwidth=1, relheight=1)
 
 #this is where we embed the terminal into the GUI 
 
-wid = frame2.winfo_id()
+wid = label2.winfo_id()
     
 try:
     
     p = subprocess.Popen(
         
-        ["xterm","-into", str(wid), "-geometry", "87x60"],
+        ["xterm","-into", str(wid), "-geometry", "113x76","-bg","#1E1E1E", "-fa","DejaVu Sans Mono", "-fs","11"],
         
         stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    
 
 #throw an exception if xterm is not installed
 
@@ -297,10 +295,20 @@ except FileNotFoundError:
     showwarning("Error", "xterm is not installed")
 
 
-FrameMenu = tk.Menu(root)
+def on_closing():
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        print(p.poll())
+        #p.terminate()
+        print(p.poll())
+        root.destroy()
+
+
+
+FrameMenu = tk.Menu(root,bg ="#252526",fg ="white",relief ="flat")
 FrameMenu.add_command(label="Open Script", command = OpenScript)
 FrameMenu.add_command(label="Record", command = record_toggle)
 FrameMenu.add_command(label="Run")
 root.config(menu = FrameMenu)
-    
+
+root.protocol("WM_DELETE_WINDOW", on_closing)
 root.mainloop()
