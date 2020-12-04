@@ -1,4 +1,4 @@
-#Version 3 
+
 
 import tkinter as tk
 from tkinter import filedialog, Text,  messagebox
@@ -220,8 +220,9 @@ def OpenScript():
     status_bar.pack(fill="x")
     def remove():
         emptyMenu = FrameMenu
+        root.title("Macro Buddy")
         root.config(menu=emptyMenu)
-        status_bar.config(text= "Macro Buddy")
+       
         
     if filename:
             
