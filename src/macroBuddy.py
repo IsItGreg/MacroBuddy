@@ -44,7 +44,11 @@ buttons = []
 global open_status
 global p
 open_status = False
-
+work_dir = os.path.dirname(__file__)
+hist_path = "history.txt"
+rc_path = "bashrc.txt"
+histfile = os.path.join(work_dir, hist_path)
+rcfile = os.path.join(work_dir, rc_path)
 
 
 root = tk.Tk()
@@ -567,7 +571,7 @@ def record_toggle():
 
         
 
-            ["xterm", "-into", str(wid), "-geometry", "87x60", "-e", "bash --rcfile ~/bashrc.txt -i"],
+            ["xterm", "-into", str(wid), "-geometry", "87x60", "-e", "bash --rcfile " + rcfile + " -i"],
 
         
 
@@ -590,7 +594,7 @@ def record_toggle():
         
 
         button5.configure(text = "Stop Recording")
-        open('/home/dan/history.txt', 'w').close()
+        open(histfile, 'w').close()
 
         stop = True
 
@@ -669,7 +673,7 @@ try:
 
         
 
-        ["xterm", "-into", str(wid), "-geometry", "87x60", "-e", "bash --rcfile ~/bashrc.txt -i"],
+        ["xterm", "-into", str(wid), "-geometry", "87x60", "-e", "bash --rcfile " + rcfile + " -i"],
 
         
 
