@@ -14,12 +14,13 @@ from io import StringIO
 HEIGHT = 1000
 WIDTH = 1000
 
+selected = False
 global open_status
 open_status = False
 filename = None
-global p
+p = None
 work_dir = os.path.dirname(__file__)
-hist_path = "history.txt"
+hist_path = "history.sh"
 rc_path = "bashrc.txt"
 histfile = os.path.join(work_dir, hist_path)
 rcfile = os.path.join(work_dir, rc_path)
@@ -29,7 +30,8 @@ root.title("Macro Buddy")
         
 canvas = tk.Canvas(root, height=HEIGHT, width = WIDTH)
 canvas.pack(fill = 'both', expand=True)
-    
+
+
 def OpenScript():
     
     global filename
@@ -69,7 +71,7 @@ def OpenScript():
         
         notepad.delete("1.0", "end")
         global filename
-        filename = filedialog.askopenfilename(initialdir="~", title= "Select File",
+        filename = filedialog.askopenfilename(initialdir=work_dir, title= "Select File",
                                             filetypes=(("shell file","*.sh"), ("all files", "."))) 
         
         if filename:
@@ -96,6 +98,38 @@ def OpenScript():
 
 
     # this add functionality to the save as button on the text editor    
+    def cut_text(e):    
+        global selected
+        
+        if e:
+            selected = root.clipboard_get()
+        else:
+            if notepad.selection_get():
+                selected = notepad.selection_get()
+                notepad.delete("sel.first", "sel.last")
+                root.clipboard_clear()
+                root.clipboard_append(selected)
+
+
+    def copy_text(e):
+        global selected
+        
+        if e:
+            selected = root.clipboard_get()
+        if notepad.selection_get():
+            selected = notepad.selection_get()
+            root.clipboard_clear()
+            root.clipboard_append(selected)
+
+    def paste_text(e):
+        global selected
+        
+        if e:
+            selected = root.clipboard_get()
+        else:
+            if selected:
+                position = notepad.index(tk.INSERT)
+                notepad.insert(position, selected)
     def save_as():
         global filename
         filename = filedialog.asksaveasfilename(defaultextension=" .*", initialdir="~", title ="Save File",filetypes=(("shell file","*.sh"), ("all files", ".")))
@@ -215,13 +249,13 @@ def OpenScript():
     
     filename.close()
     
-
-
+    root.bind('<Control-Key-x>', cut_text)
+    root.bind('<Control-Key-c>', copy_text)
+    root.bind('<Control-Key-v>', paste_text)
 
 toggle = False
 
 #this function toggles the record new macro to stop recording 
-
 def record_toggle():
     global toggle
     global p
@@ -296,9 +330,8 @@ wid = label2.winfo_id()
 def on_closing():
     global p
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
-        print(p.poll())
-        p.kill()
-        print(p.poll())
+        if p is not None:
+            p.kill()    
         root.destroy()
 
 
