@@ -176,7 +176,7 @@ def OpenScript():
     file_menu.add_separator()
     # this exit label has commands that forget the frames originally placed at the top of this 
     # openScript function when the editor is opened so it removes those frames once exit is clicked 
-    file_menu.add_command(label="Exit", command= lambda:[notepad.pack_forget(),text_scroll.pack_forget(),frame4.place_forget(),runButton.place_forget(),optionFrame.place_forget(),exitButton5.place_forget(),exitFrame.place_forget(),remove()])
+    file_menu.add_command(label="Exit", command= lambda:[notepad.pack_forget(),text_scroll.pack_forget(),frame4.place_forget(),runButton.place_forget(),optionFrame.place_forget(),exitButton5.place_forget(),remove()])
 
     edit_menu = tk.Menu(notepad_menu,bg ="#252526",fg ="white",relief ="flat",tearoff= False)
     notepad_menu.add_cascade(label="Edit", menu=edit_menu)
@@ -229,10 +229,16 @@ def record_toggle():
         
     if toggle:
         
-        
         button5.configure(text = "Record New Macro", bg='#68217A',activebackground = "#68217A")
         p.kill()
-
+        toggle = False
+    
+            
+    else: 
+               
+        button5.configure(text = "Stop Recording", bg='#F35F25',activebackground = "#F35F25")      
+        toggle = True
+        open(histfile, 'w').close()
         try:
             p = subprocess.Popen(
             ["xterm", "-into", str(wid), "-geometry", "113x76", "-bg","#1E1E1E", "-fa","DejaVu Sans Mono", "-fs","11", "-e", "bash --rcfile " + rcfile + " -i"],
@@ -240,17 +246,7 @@ def record_toggle():
 
         except FileNotFoundError:
             showwarning("Error", "xterm failed to load")
-        
-        toggle = False
-    
-            
-    else: 
-               
-        button5.configure(text = "Stop Recording", bg='#F35F25',activebackground = "#F35F25")      
-        open(histfile, 'w').close()
-        toggle = True
-        
-    
+
                
 canvas.configure(bg = '#383b3d')
 
@@ -296,25 +292,12 @@ label2.place(relwidth=1, relheight=1)
 
 wid = label2.winfo_id()
     
-try:
-    
-    p = subprocess.Popen(
-        
-        ["xterm", "-into", str(wid), "-geometry", "113x76", "-bg","#1E1E1E", "-fa","DejaVu Sans Mono", "-fs","11", "-e", "bash --rcfile " + rcfile + " -i"],
-        
-        stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-
-#throw an exception if xterm is not installed
-
-except FileNotFoundError:
-    
-    showwarning("Error", "xterm is not installed")
-
 
 def on_closing():
+    global p
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         print(p.poll())
-        #p.terminate()
+        p.kill()
         print(p.poll())
         root.destroy()
 
