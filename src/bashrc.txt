@@ -1,0 +1,8 @@
+# .bashrc
+
+HISTFILE=~/history.txt
+HISTSIZE=100000
+
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
