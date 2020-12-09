@@ -5,6 +5,10 @@ a:hover {
   color: #fff;
 }
 
+p a {
+  color: lightgray;
+}
+
 .btn-secondary,
 .btn-secondary:hover,
 .btn-secondary:focus {
@@ -121,4 +125,9 @@ main {
 
 .download-button {
   margin: 10px 0 25px 0
+}
+
+.download-button_hover:hover {
+  background-color: lightgray;
+  color: white;
 }
