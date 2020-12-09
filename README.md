@@ -8,7 +8,7 @@ How to Run Macro Buddy
 ======
 
 
-Go to src folder and clone the code or copy and paste it,  make sure python3 is installed in your system.
+Go to src folder and clone the code or copy and paste it and run the program from the home PATH of your system,  make sure python3 is installed in your system.
 
 ### Program Dependencies
 
