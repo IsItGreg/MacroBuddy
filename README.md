@@ -20,7 +20,8 @@ Things that should be installed so the program can run
 
 To install them on linux you run these commands in the terminal 
 * ```sudo apt-get install python3-tk```
-* ```python3 -m pip install pynput```
+* ```sudo apt install python3-pip```
+* ```pip3 install pynput```
 * ```sudo apt-get install -y xterm```
 
 Then just run the script by typing ``` python3  macroBuddy.py ```
@@ -30,15 +31,16 @@ How it Looks
 
 Heres the main windows when the program is ran
 
-![Imgur](https://i.imgur.com/TMqy5if.png)
-
-In the bottom right we have Record New Macro to record a script, currently its a prototype so there is no functionality to the button yet. Top right there is a open script button that allows to open previously recorded scripts and it allows the user to be able to edit the script or run it, this is what the user would see when they open the script. 
-
-![Imgur](https://i.imgur.com/id1tqNj.png)
+![img](https://i.imgur.com/qrZiXOS.png)
 
 
-When we have the Text Editor open we can see that we have some menu options for the text editor in the top left, we also have a exit to terminal button in the lower right, it replaces the Record New Macro button whenever we are in the text editor. currently only the file menu is working, the edit menu will be implemented in the future below is a picture of what the menu looks like. 
+In the bottom right we have Record New Macro to record a script or we can hit one of the menu options on the top, if the bottom button is pressed it will toggle to stop recording. Once start Recording is pressed it will capture keyboard input and then once stop recording is pressed it will stop recording keyboard input and ask the user where to save the file, the sh file will have this shebang on the top ```#!/bin/bash```. Top right there is a open script button that allows to open scripts that were just saved or were saved in the past and it allows the user to be able to edit the script if any mistakes were made while recording their macro, once its open the user can run the script and it will run the commands from the home PATH of the user, and it will execute those commands in the shell that the user used to run the python script, this is what the user would see when they click on the open script button and select a file. 
 
-![img](https://i.imgur.com/0XZD2Ue.png)
+![img](https://i.imgur.com/WLP6iTy.png)
 
-We have multiple options such as New, Open, Save, Save As, Run we can run the script from there as well, and we Exit which makes it so that we exit back to the terminal 
+
+When we have the Text Editor open we can see that we have some menu options for the text editor in the top left, we also have a exit to terminal button in the lower right, it replaces the Record New Macro button whenever we are in the text editor. The file menu is working and so is the the edit menu below is a picture of what the menu looks like. 
+
+![img](https://i.imgur.com/ps2i7oL.png)
+
+We have multiple options such as New, Open, Save, Save As, and we have Run we can run the script from there as well, and we have Exit which makes it so that we exit back to the terminal 
