@@ -1,7 +1,7 @@
  # .bashrc
 
 
-HISTFILE=~/history.sh
+HISTFILE=`pwd`/history.sh
 HISTSIZE=100000
 
 if [ -f /etc/bashrc ]; then
