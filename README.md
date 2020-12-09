@@ -4,7 +4,7 @@ Project for Software Engineering 1 at UMass Lowell
 
 
 
-How to Run Macro Buddy (PROTOTYPE V1)
+How to Run Macro Buddy 
 ======
 
 
