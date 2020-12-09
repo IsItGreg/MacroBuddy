@@ -31,10 +31,17 @@ How it Looks
 
 Heres the main windows when the program is ran
 
-![img](https://i.imgur.com/qrZiXOS.png)
+
+![img](https://i.imgur.com/Zzs5DTM.png)
 
 
-In the bottom right we have Record New Macro to record a script or we can hit one of the menu options on the top, if the bottom button is pressed it will toggle to stop recording. Once start Recording is pressed it will capture keyboard input and then once stop recording is pressed it will stop recording keyboard input and ask the user where to save the file, the sh file will have this shebang on the top ```#!/bin/bash```. Top right there is a open script button that allows to open scripts that were just saved or were saved in the past and it allows the user to be able to edit the script if any mistakes were made while recording their macro, once its open the user can run the script and it will run the commands from the home PATH of the user, and it will execute those commands in the shell that the user used to run the python script, this is what the user would see when they click on the open script button and select a file. 
+
+In the bottom right we have Record New Macro to record a script or we can hit one of the menu options on the top, if the bottom button is pressed it will toggle to stop recording and an xterm terminal will appear where the user can start inputtin the commands that they want to be converted into a shell script. Below is a picture of what the xterm terminal looks like within the application. 
+
+![img](https://i.imgur.com/oJBKxlJ.png)
+
+
+Once stop recording is pressed it will kill the terminal and it will ask where the user wants to save their shell script. Top right there is a open script button that allows the user to open scripts that were just saved or were saved in the past and it allows the user to be able to edit the script if any mistakes were made while recording their macro, once its open the user can run the script and it will run the commands from the home PATH of the user, and it will execute those commands in the shell that the user used to run the python script, this is what the user would see when they click on the open script button and select a file. 
 
 ![img](https://i.imgur.com/WLP6iTy.png)
 
